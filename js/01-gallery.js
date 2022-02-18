@@ -3,28 +3,12 @@ import { galleryItems } from './gallery-items.js';
 
 //console.log(galleryItems);
 
-const headRef = document.querySelector('head');
 const galleryRef = document.querySelector('.gallery');
-const imgStyles = createImgStyles();
 const GalleryCardsMurkup = createGalleryCardsMarkup(galleryItems);
-
-headRef.insertAdjacentHTML('beforeend', imgStyles);
 
 galleryRef.insertAdjacentHTML("beforeend", GalleryCardsMurkup);
 
 galleryRef.addEventListener('click', onImgClick);
-
-function createImgStyles() {
-    return `
-        <style>
-            .gallery__image {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            } 
-        </style>
-        `;
-}
 
 function createGalleryCardsMarkup(galleryItems) {
     return galleryItems
@@ -43,14 +27,6 @@ function createGalleryCardsMarkup(galleryItems) {
                 `;
         })
         .join('');
-    // <div class="img-card">
-    //                 <img
-    //                     class="gallery__image"
-    //                     src="${preview}"
-    //                     alt="${description}"
-    //                     data-source="${original}"
-    //                 >
-    //             </div>
 }
 
 function onImgClick(e) {
