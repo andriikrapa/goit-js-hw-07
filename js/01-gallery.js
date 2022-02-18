@@ -17,7 +17,7 @@ galleryRef.addEventListener('click', onImgClick);
 function createImgStyles() {
     return `
         <style>
-            .img-item {
+            .gallery__image {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
@@ -30,21 +30,33 @@ function createGalleryCardsMarkup(galleryItems) {
     return galleryItems
         .map(({preview, original, description, }) => {
             return `
-                <div class="img-card">
-                    <img
-                        class="img-item"
+                <div class="gallery__item">
+                    <a class="gallery__link" href="${original}">
+                        <img
+                        class="gallery__image"
                         src="${preview}"
+                        data-source="${original}"
                         alt="${description}"
-                        data-original-img="${original}"
-                    >
+                        />
+                    </a>
                 </div>
                 `;
         })
         .join('');
+    // <div class="img-card">
+    //                 <img
+    //                     class="gallery__image"
+    //                     src="${preview}"
+    //                     alt="${description}"
+    //                     data-source="${original}"
+    //                 >
+    //             </div>
 }
 
 function onImgClick(e) {
-    const isImgEl = e.target.classList.contains('img-item');
+    e.preventDefault();
+
+    const isImgEl = e.target.classList.contains('gallery__image');
     const selectedImg = e.target;
 
     if (!isImgEl) {
@@ -53,12 +65,11 @@ function onImgClick(e) {
     
     removeActiveClassFromImg();
     addActiveClassOnImg(selectedImg);
-
-    console.log(selectedImg.alt);
+    createLightbox(selectedImg);
 }
 
 function removeActiveClassFromImg() {
-    const currentActiveImg = document.querySelector('.img-item.is-active');
+    const currentActiveImg = document.querySelector('.gallery__image.is-active');
 
     if (currentActiveImg) {
         currentActiveImg.classList.remove('is-active');
@@ -73,4 +84,8 @@ function addActiveClassOnImg(selectedImg) {
     selectedImg.classList.add('is-active')
 }
 
-//console.log()
+function createLightbox(selectedImg) {
+    basicLightbox.create(`
+        <img src="${selectedImg.dataset.source}" width="800" height="600">
+    `).show();
+}
