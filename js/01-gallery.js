@@ -4,11 +4,12 @@ import { galleryItems } from './gallery-items.js';
 //console.log(galleryItems);
 
 const galleryRef = document.querySelector('.gallery');
-const GalleryCardsMurkup = createGalleryCardsMarkup(galleryItems);
-
-galleryRef.insertAdjacentHTML("beforeend", GalleryCardsMurkup);
+const galleryCardsMurkup = createGalleryCardsMarkup(galleryItems);
+const instance = 0;
+galleryRef.insertAdjacentHTML("beforeend", galleryCardsMurkup);
 
 galleryRef.addEventListener('click', onImgClick);
+document.addEventListener("keydown", onKeyPress);
 
 function createGalleryCardsMarkup(galleryItems) {
     return galleryItems
@@ -61,7 +62,15 @@ function addActiveClassOnImg(selectedImg) {
 }
 
 function createLightbox(selectedImg) {
-    basicLightbox.create(`
+    const instance = basicLightbox.create(`
         <img src="${selectedImg.dataset.source}" width="800" height="600">
     `).show();
+
+}
+
+function onKeyPress(e) {
+    if (e.code === 'Escape') {
+        console.log(basicLightbox);
+        //basicLightbox.visible = off;
+    }
 }
